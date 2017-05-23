@@ -5,9 +5,8 @@ defmodule Cipher do
 
   def decode(cipher, encoded) do
     encoded
-    |> String.upcase
     |> String.split("", trim: true)
-    |> Enum.map(fn(e) -> Map.get(cipher.decodebook, e, " ") end)
+    |> Enum.map(&Map.get(cipher.decodebook, &1, " "))
     |> Enum.join
   end
 
