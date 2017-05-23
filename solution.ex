@@ -15,8 +15,7 @@ defmodule Cipher do
     normalize_keyword(keyword)
     |> normalize_alphabet(@alphabet)
     |> substitution_alphabet
-    |> Enum.zip(String.split(@alphabet, "", trim: true))
-    |> Map.new
+    |> new_decodebook(@alphabet)
     |> (&%Cipher{decodebook: &1}).()
   end
 
@@ -42,6 +41,12 @@ defmodule Cipher do
     |> Enum.map(&(Enum.filter(&1, fn(e) -> !is_nil(e) end)))
     |> Enum.sort
     |> List.flatten
+  end
+
+  defp new_decodebook(substitution_alphabet, alphabet) do
+    substitution_alphabet
+    |> Enum.zip(String.split(alphabet, "", trim: true))
+    |> Map.new
   end
 
   defp fill(list, size, _) when length(list) >= size, do: list
